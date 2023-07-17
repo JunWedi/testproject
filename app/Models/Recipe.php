@@ -9,3 +9,5 @@ class Recipe extends Model
 {
     use HasFactory;
 }
+
+//試し
