@@ -11,3 +11,7 @@ Route::get('/recipes/create', [RecipeController::class, 'create']);
 
 Route::get('/recipes/{recipe}', [RecipeController::class ,'show']);
 
+Route::post('/recipes', [RecipeController::class, 'store']);
+
+Route::get('/recipes/{recipe}/edit', [RecipeController::class, 'edit']);
+Route::put('/recipes/{recipe}', [RecipeController::class, 'update']);

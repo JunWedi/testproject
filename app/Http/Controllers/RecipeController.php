@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Recipe;
+use App\Http\Requests\RecipeRequest;
 
 class RecipeController extends Controller
 {
@@ -21,5 +22,18 @@ class RecipeController extends Controller
     {
         return view('recipes.create');
     }
+
+    public function edit(Recipe $recipe)
+    {
+        return view('recipes.edit')->with(['recipe' => $recipe]);
+    }
+
+    public function update(RecipeRequest $request, Recipe $recipe)
+    {
+        $input_recipe = $request['recipe'];
+        $recipe->fill($input_recipe)->save();
+
+        return redirect('/recipes/' . $recipe->id);
+    } 
 
 }
