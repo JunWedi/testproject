@@ -14,7 +14,17 @@
             </div>
             <div class="body">
                 <h2>Body</h2>
-                <textarea name="recipe[body]" placeholder="鶏肉、豚肉、牛肉etc"></textarea>
+                <textarea name="recipe[body]" placeholder="紹介文"></textarea>
+            </div>
+            <div class="category">
+              <h2>Category</h2>
+                <select>
+                 @foreach($categories as $category)
+                   <option value="{{ $category->id }}" name="categories_array[]">
+                    {{ $category->name }}
+                   </option>
+                 @endforeach
+                </select>
             </div>
             <input type="submit" value="store"/>
         </form>

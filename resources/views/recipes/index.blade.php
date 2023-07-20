@@ -15,6 +15,11 @@
             <h2 class='title'>
                 <a href="/recipes/{{ $recipe->id }}">{{ $recipe->title }}</a>
             </h2>
+            <h3 class="categories">
+            @foreach($recipe->categories as $category)   
+               {{ $category->category_name }}
+            @endforeach
+            </h3>
             <p class='body'>{{ $recipe->body }}</p>
          </div>
         @endforeach 
