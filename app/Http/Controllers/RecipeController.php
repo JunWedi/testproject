@@ -47,11 +47,10 @@ class RecipeController extends Controller
    public function store(RecipeRequest $request, Recipe $recipe)
    {
         $input_recipe = $request['recipe'];
-        $input_categories = $request->categories_array; 
-    
+
         $recipe->fill($input_recipe)->save();
-    
-        $recipe->categories()->attach($input_categories); 
+
+        $recipe->categories()->attach($request->category_id); 
         return redirect('/recipes');
    }
 

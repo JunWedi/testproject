@@ -18,9 +18,9 @@
             </div>
             <div class="category">
               <h2>Category</h2>
-                <select>
+                <select name="category_id">
                  @foreach($categories as $category)
-                   <option value="{{ $category->id }}" name="categories_array[]">
+                   <option value="{{ $category->id }}">
                     {{ $category->name }}
                    </option>
                  @endforeach
