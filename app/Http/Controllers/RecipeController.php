@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Recipe;
 use App\Http\Requests\RecipeRequest;
 use App\Models\Category;
+use App\Models\Tag;
 
 class RecipeController extends Controller
 {
@@ -46,11 +47,21 @@ class RecipeController extends Controller
    //レシピとカテゴリーの保存
    public function store(RecipeRequest $request, Recipe $recipe)
    {
+        //レシピデータの取得
         $input_recipe = $request['recipe'];
 
+        //レシピの保存とカテゴリーIDのリレーション
         $recipe->fill($input_recipe)->save();
-
         $recipe->categories()->attach($request->category_id); 
+
+        $tags = array_map('trim', explode('#', $request->tag_id));
+        foreach ($tags as $tag) {
+            if(!empty($tag)){
+            $tagModel = Tag::firstOrCreate(['name' => $tag]);
+            $recipe->tags()->attach($tagModel->id);
+            }
+        }  
+
         return redirect('/recipes');
    }
 

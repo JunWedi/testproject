@@ -26,6 +26,9 @@
                  @endforeach
                 </select>
             </div>
+            <div class="tag">
+                <textarea name="tag_id" placeholder="辛い、冷たい、etc"></textarea>
+            </div>
             <input type="submit" value="store"/>
         </form>
         <div class="footer">
