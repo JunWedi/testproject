@@ -14,6 +14,7 @@ class Recipe extends Model
     protected $fillable = [
         'title',
         'body',
+        'ingredient_id',
     ];
 
     protected $guarded = ['id'];
@@ -28,5 +29,11 @@ class Recipe extends Model
     public function tags(): BelongsToMany
     {
         return $this->belongsToMany(Tag::class);
+    }
+
+     //材料への多対多のリレーション
+    public function ingredient()
+    {
+        return $this->belongsTo(Ingredient::class);
     }
 }

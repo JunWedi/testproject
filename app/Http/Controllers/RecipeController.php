@@ -7,6 +7,8 @@ use App\Models\Recipe;
 use App\Http\Requests\RecipeRequest;
 use App\Models\Category;
 use App\Models\Tag;
+use App\Models\Ingredient;
+use App\Models\Step;
 
 class RecipeController extends Controller
 {
@@ -54,13 +56,38 @@ class RecipeController extends Controller
         $recipe->fill($input_recipe)->save();
         $recipe->categories()->attach($request->category_id); 
 
+        //レシピとタグのリレーション
         $tags = array_map('trim', explode('#', $request->tag_id));
         foreach ($tags as $tag) {
             if(!empty($tag)){
             $tagModel = Tag::firstOrCreate(['name' => $tag]);
             $recipe->tags()->attach($tagModel->id);
             }
-        }  
+        }
+        
+        //材料
+        $ingredient_names = $request->input('ingredient_names');
+        $ingredient_quantities = $request->input('ingredient_quantities');
+        $ingredient_units = $request->input('ingredient_units');
+
+        for ($i = 0; $i < count($ingredient_names); $i++) {
+            $ingredient = new Ingredient;
+            $ingredient->name = $ingredient_names[$i] . " " . $ingredient_quantities[$i] . " " . $ingredient_units[$i];
+            $ingredient->recipe_id = $recipe->id;
+            $ingredient->save();
+        }
+
+        //作り方(step)
+        $step_numbers = $request->input('step_numbers');
+        $step_descriptions = $request->input('step_descriptions');
+
+         for ($i = 0; $i < count($step_numbers); $i++) {
+            $step = new Step;
+            $step->recipe_id = $recipe->id;
+            $step->step_number = $step_numbers[$i];
+            $step->description = $step_descriptions[$i];
+            $step->save();
+        }
 
         return redirect('/recipes');
    }
