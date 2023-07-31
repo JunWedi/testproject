@@ -6,7 +6,7 @@
     </head>
     <body>
         <h1>Register Recipe</h1>
-        <form action="/recipes" method="POST">
+        <form action="/recipes" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="title">
                 <h2>Name of food</h2>
@@ -16,11 +16,16 @@
                 <h2>Body</h2>
                 <textarea name="recipe[body]" placeholder="紹介文"></textarea>
             </div>
+            <div class="recipe_image">
+               <h2>Recipe Image</h2>
+                   <input type="file" name="recipe_image">
+            </div>
             <div id="steps">
                 <h2>Step</h2>
                 <div class="step">    
                  <input type="number" name="step_numbers[]" placeholder="ステップ番号">
                  <textarea name="step_descriptions[]" placeholder="ステップの説明"></textarea>
+                 <input type="file" name="step_image[]">
                  <button type="button" onclick="removeIngredient(this)">削除</button>
                 </div>
             </div>
@@ -76,7 +81,7 @@ function removeIngredient(button) {
 function addStep() {
     var div = document.createElement('div');
     div.className = 'step';
-    div.innerHTML = '<input type="number" name="step_numbers[]" placeholder="ステップ番号"><textarea name="step_descriptions[]" placeholder="ステップの説明"></textarea><button type="button" onclick="removeStep(this)">削除</button>';
+    div.innerHTML = '<input type="number" name="step_numbers[]" placeholder="ステップ番号"><textarea name="step_descriptions[]" placeholder="ステップの説明"></textarea><input type="file" name="step_image"><button type="button" onclick="removeStep(this)">削除</button>';
     document.getElementById('steps').appendChild(div);
 }
 

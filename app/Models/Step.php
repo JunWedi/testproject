@@ -12,5 +12,6 @@ class Step extends Model
     protected $fillable = [
         'name',
         'recipe_id',
+        'image_path',
     ];
 }
