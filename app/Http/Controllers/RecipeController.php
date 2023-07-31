@@ -52,6 +52,15 @@ class RecipeController extends Controller
         //レシピデータの取得
         $input_recipe = $request['recipe'];
 
+        if($request->hasFile('recipe_image')) {
+            $recipeImage = $request->file('recipe_image');
+            $recipeImageSaveAsName = time() . "-" . $recipeImage->getClientOriginalName();
+            $upload_path = 'recipe_images/';
+            $recipe_image_path = $recipeImage->storeAs('public/recipe_images', $recipeImageSaveAsName);
+            $success = $recipeImage->move($upload_path, $recipeImageSaveAsName);
+            $recipe->image_path = asset(str_replace('public', 'storage', $recipe_image_path));
+        }
+
         //レシピの保存とカテゴリーIDのリレーション
         $recipe->fill($input_recipe)->save();
         $recipe->categories()->attach($request->category_id); 
@@ -80,13 +89,25 @@ class RecipeController extends Controller
         //作り方(step)
         $step_numbers = $request->input('step_numbers');
         $step_descriptions = $request->input('step_descriptions');
+        $step_images = $request->allFiles()['step_image']; // ステップ画像を取得
 
-         for ($i = 0; $i < count($step_numbers); $i++) {
+        for ($i = 0; $i < count($step_numbers); $i++) {
             $step = new Step;
             $step->recipe_id = $recipe->id;
             $step->step_number = $step_numbers[$i];
             $step->description = $step_descriptions[$i];
-            $step->save();
+
+            // ステップ画像がアップロードされた場合、画像を保存します。
+            if(isset($step_images[$i])) {
+             $stepImage = $step_images[$i];
+             $stepImageSaveAsName = time() . "-" . $stepImage->getClientOriginalName();
+             $upload_path = 'step_images/';
+             $step_image_path = $stepImage->storeAs('public/step_images', $stepImageSaveAsName);
+             $success = $stepImage->move($upload_path, $stepImageSaveAsName);
+             $step->image_path = asset(str_replace('public', 'storage', $step_image_path));
+            }
+
+        $step->save();
         }
 
         return redirect('/recipes');

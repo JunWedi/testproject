@@ -14,7 +14,7 @@ class Recipe extends Model
     protected $fillable = [
         'title',
         'body',
-        'ingredient_id',
+        'image_path',
     ];
 
     protected $guarded = ['id'];
