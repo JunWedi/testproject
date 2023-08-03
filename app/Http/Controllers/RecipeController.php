@@ -22,7 +22,8 @@ class RecipeController extends Controller
     //レシピの詳細表示
     public function show(Recipe $recipe)
     {
-    return view('recipes.show')->with(['recipe' => $recipe]);
+        $recipe = $recipe->load(['ingredients']); //材料の表示
+        return view('recipes.show')->with(['recipe' => $recipe]);
     }
 
     //レシピの編集
