@@ -10,7 +10,8 @@
     <body>
     <h1 class="title">編集画面</h1>
     <div class="content">
-        <form action="/recipes/{{ $recipe->id }}" method="POST">
+        <!-- 編集フォーム -->
+        <form action="/recipes/{{ $recipe->id }}" method="POST" id="edit_form">
             @csrf
             @method('PUT')
             <div class='content__title'>
@@ -23,5 +24,21 @@
             </div>
             <input type="submit" value="保存">
         </form>
+        <!-- 削除フォーム -->
+        <form action="/recipes/{{ $recipe->id }}" method="POST" id="delete_form">
+            @csrf
+            @method('DELETE')
+            <button type="button" onclick="deleteRecipe({{ $recipe->id }})">delete</button> 
+        </form>
     </div>
 </html>
+
+<script>
+    function deleteRecipe(id) {
+        'use strict'
+
+        if (confirm('削除すると復元できません。\n本当に削除しますか？')) {
+            document.getElementById('delete_form').submit();
+        }
+    }
+</script>

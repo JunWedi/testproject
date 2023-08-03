@@ -38,13 +38,21 @@ class RecipeController extends Controller
         $input_recipe = $request['recipe'];
         $recipe->fill($input_recipe)->save();
 
-        return redirect('/recipes/' . $recipe->id);
+        return view('recipes.show')->with(['recipe' => $recipe]);
     } 
   
     //レシピの作成、カテゴリーの登録
    public function create(Category $category)
    {
         return view('recipes.create')->with(['categories' => $category->get()]);
+   }
+
+   //レシピの削除
+   public function destroy(Recipe $recipe)
+   {
+        $recipe->delete();
+
+        return redirect('/recipes');
    }
    
    //レシピとカテゴリーの保存
