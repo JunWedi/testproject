@@ -31,9 +31,15 @@ class Recipe extends Model
         return $this->belongsToMany(Tag::class);
     }
 
-     //材料への多対多のリレーション
-    public function ingredient()
+     //材料への1対多のリレーション
+    public function ingredients()
     {
-        return $this->belongsTo(Ingredient::class);
+        return $this->hasMany(Ingredient::class);
+    }
+
+    //作り方の１対多リレーション
+    public function steps()
+    {
+        return $this->hasMany(Step::class);
     }
 }

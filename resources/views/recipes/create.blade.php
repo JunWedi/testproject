@@ -81,7 +81,7 @@ function removeIngredient(button) {
 function addStep() {
     var div = document.createElement('div');
     div.className = 'step';
-    div.innerHTML = '<input type="number" name="step_numbers[]" placeholder="ステップ番号"><textarea name="step_descriptions[]" placeholder="ステップの説明"></textarea><input type="file" name="step_image"><button type="button" onclick="removeStep(this)">削除</button>';
+    div.innerHTML = '<input type="number" name="step_numbers[]" placeholder="ステップ番号"><textarea name="step_descriptions[]" placeholder="ステップの説明"></textarea><input type="file" name="step_image[]"><button type="button" onclick="removeStep(this)">削除</button>';
     document.getElementById('steps').appendChild(div);
 }
 
