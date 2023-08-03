@@ -13,5 +13,7 @@ Route::get('/recipes/{recipe}', [RecipeController::class ,'show']);
 
 Route::post('/recipes', [RecipeController::class, 'store']);
 
+Route::delete('/recipes/{recipe}',[RecipeController::class,'destroy']);
+
 Route::get('/recipes/{recipe}/edit', [RecipeController::class, 'edit']);
 Route::put('/recipes/{recipe}', [RecipeController::class, 'update']);
