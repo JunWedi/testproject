@@ -3,6 +3,7 @@
     <head>
         <meta charset="utf-8">
         <title>Register Recipe</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.1/css/bootstrap.min.css">
     </head>
     <body>
         <h1>Register Recipe</h1>
@@ -10,11 +11,13 @@
             @csrf
             <div class="title">
                 <h2>Name of food</h2>
-                <input type="text" name="recipe[title]" placeholder="料理名"/>
+                <input type="text" name="recipe[title]" placeholder="料理名" value="{{ old('recipe.title') }}" />
+                <p class="title__error" style="color:red">{{ $errors->first('recipe.body') }}</p>
             </div>
             <div class="body">
                 <h2>Body</h2>
-                <textarea name="recipe[body]" placeholder="紹介文"></textarea>
+                <textarea name="recipe[body]" placeholder="紹介文">{{ old('recipe.title') }}</textarea>
+                <p class="title__error" style="color:red">{{ $errors->first('recipe.body') }}</p>
             </div>
             <div class="recipe_image">
                <h2>Recipe Image</h2>
@@ -26,7 +29,7 @@
                  <input type="number" name="step_numbers[]" placeholder="ステップ番号">
                  <textarea name="step_descriptions[]" placeholder="ステップの説明"></textarea>
                  <input type="file" name="step_image[]">
-                 <button type="button" onclick="removeIngredient(this)">削除</button>
+                 <button type="button" onclick="removeStep(this)">削除</button>
                 </div>
             </div>
 
@@ -62,15 +65,14 @@
         <div class="footer">
             <a href="/">戻る</a>
         </div>
-    </body>
-</html>
+    
 
-<script>
-function addIngredient() {
-    var div = document.createElement('div');
-    div.className = 'ingredient';
-    div.innerHTML = '<input type="text" name="ingredient_names[]" placeholder="材料名"><input type="text" name="ingredient_quantities[]" placeholder="量"><input type="text" name="ingredient_units[]" placeholder="単位"><button type="button" onclick="removeIngredient(this)">削除</button>';
-    document.getElementById('ingredients').appendChild(div);
+        <script>
+            function addIngredient() {
+            var div = document.createElement('div');
+            div.className = 'ingredient';
+            div.innerHTML = '<input type="text" name="ingredient_names[]" placeholder="材料名"><input type="text" name="ingredient_quantities[]" placeholder="量"><input type="text" name="ingredient_units[]" placeholder="単位"><button type="button" onclick="removeIngredient(this)">削除</button>';
+            document.getElementById('ingredients').appendChild(div);
 }
 
 function removeIngredient(button) {
@@ -91,3 +93,5 @@ function removeStep(button) {
 }
 
 </script>
+    </body>
+</html>
