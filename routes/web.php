@@ -9,7 +9,7 @@ Route::get('/recipes', [RecipeController::class, 'index']);
 
 Route::get('/recipes/create', [RecipeController::class, 'create']);
 
-Route::get('/recipes/{recipe}', [RecipeController::class ,'show']);
+Route::get('/recipes/{recipe}', [RecipeController::class ,'show'])->name('recipes.show');
 
 Route::post('/recipes', [RecipeController::class, 'store']);
 
