@@ -11,7 +11,6 @@
     <body>
     <x-app-layout>
     <x-slot name="header">
-     AsiFoods
     </x-slot>
         <div class="container">
             <div class="row">
