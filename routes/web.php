@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RecipeController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -14,13 +16,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::controller(RecipeController::class)->middleware(['auth'])->group(function(){
+    Route::get('/', [RecipeController::class, 'index'])->name('index');
+    Route::get('/recipes', [RecipeController::class, 'index'])->name('recipes.index');
+    Route::get('/recipes/create', [RecipeController::class, 'create'])->name('recipes.create');
+    Route::get('/recipes/{recipe}', [RecipeController::class ,'show'])->name('recipes.show');
+    Route::post('/recipes', [RecipeController::class, 'store'])->name('recipes.store');
+    Route::delete('/recipes/{recipe}',[RecipeController::class,'destroy'])->name('recipes.destroy');
+    Route::get('/recipes/{recipe}/edit', [RecipeController::class, 'edit'])->name('recipes.edit');
+    Route::put('/recipes/{recipe}', [RecipeController::class, 'update'])->name('recipes.update');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

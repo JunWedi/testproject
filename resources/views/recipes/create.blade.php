@@ -6,9 +6,10 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.1/css/bootstrap.min.css">
     </head>
     <body>
-    @extends('layouts.app')
-
-    @section('content')
+    <x-app-layout>
+    <x-slot name="header">
+     AsiFoods
+    </x-slot>
         <h1>Register Recipe</h1>
         <form action="/recipes" method="POST" enctype="multipart/form-data">
             @csrf
@@ -98,4 +99,5 @@ function removeStep(button) {
 </script>
 @endsection
     </body>
+</x-app-layout>
 </html>

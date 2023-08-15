@@ -17,12 +17,11 @@
         }
     </style>
 </head>
+<x-app-layout>
+    <x-slot name="header">
+     AsiFoods
+    </x-slot>
 <body>
-
-@extends('layouts.app')
-
-@section('content')
-
     <div class="container my-5">
         <div class="text-center">
             <h1 class="mb-4">{{ $recipe->title }}</h1>
@@ -59,6 +58,6 @@
             <a href="/" class="btn btn-secondary">戻る</a>
         </div>
     </div>
-@endsection
 </body>
+    </x-app-layout>
 </html>

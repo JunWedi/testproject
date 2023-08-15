@@ -7,11 +7,12 @@
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
     </head>
+    <x-app-layout>
+    <x-slot name="header">
+     AsiFoods
+    </x-slot>
+    
     <body>
-
-    @extends('layouts.app')
-
-    @section('content')
     
         <h1>Edit Recipe</h1>
         <!-- 編集フォーム -->
@@ -166,7 +167,6 @@ function removeStep(button, stepId) {
             }
             }
         </script>
-    @endsection
-
     </body>
+    </x-app-layout>
 </html>
