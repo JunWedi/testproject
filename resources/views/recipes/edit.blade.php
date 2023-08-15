@@ -8,6 +8,11 @@
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
     </head>
     <body>
+
+    @extends('layouts.app')
+
+    @section('content')
+    
         <h1>Edit Recipe</h1>
         <!-- 編集フォーム -->
         <form action="/recipes/{{ $recipe->id }}" method="POST" enctype="multipart/form-data">
@@ -161,6 +166,7 @@ function removeStep(button, stepId) {
             }
             }
         </script>
+    @endsection
 
     </body>
 </html>

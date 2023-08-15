@@ -9,13 +9,13 @@
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     </head>
     <body>
+    @extends('layouts.app')
+
+    @section('content')
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
                     <h1>RECIPES</h1>
-                    <a href='/recipes/create'>
-                    <button type="button" class="btn btn-primary">投稿</button>
-                    </a>
                     <div class="row">
                         @foreach ($recipes as $recipe)
                         <div class="col-lg-4">
@@ -41,6 +41,7 @@
                 </div>
             </div>
         </div>
+    @endsection
 
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
