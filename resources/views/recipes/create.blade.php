@@ -8,7 +8,6 @@
     <body>
     <x-app-layout>
     <x-slot name="header">
-     AsiFoods
     </x-slot>
         <h1>Register Recipe</h1>
         <form action="/recipes" method="POST" enctype="multipart/form-data">
@@ -97,7 +96,6 @@ function removeStep(button) {
 }
 
 </script>
-@endsection
     </body>
 </x-app-layout>
 </html>

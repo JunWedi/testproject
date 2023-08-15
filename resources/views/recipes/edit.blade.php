@@ -9,7 +9,6 @@
     </head>
     <x-app-layout>
     <x-slot name="header">
-     AsiFoods
     </x-slot>
     
     <body>
