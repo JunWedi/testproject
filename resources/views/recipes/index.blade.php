@@ -7,15 +7,16 @@
         <link href="{{ asset('css/style.css') }}" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body>
     <x-app-layout>
     <x-slot name="header">
+        @include('layouts.header')
     </x-slot>
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1>RECIPES</h1>
                     <div class="row">
                         @foreach ($recipes as $recipe)
                         <div class="col-lg-4">

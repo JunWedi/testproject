@@ -12,9 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('recipes', function (Blueprint $table) {
-            if (!Schema::hasColumn('recipes', 'image_path')) {
-                $table->string('image_path')->nullable();
-            }
+            $table->unsignedBigInteger('user_id')->after('id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
@@ -24,7 +23,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('recipes', function (Blueprint $table) {
-            $table->dropColumn('image_path');
+            //
         });
     }
 };
