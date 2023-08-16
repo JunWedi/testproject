@@ -42,4 +42,11 @@ class Recipe extends Model
     {
         return $this->hasMany(Step::class);
     }
+
+    //userの1対多リレーション
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
 }

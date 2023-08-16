@@ -4,10 +4,12 @@
         <meta charset="utf-8">
         <title>Register Recipe</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.1/css/bootstrap.min.css">
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body>
     <x-app-layout>
     <x-slot name="header">
+        @include('layouts.header')
     </x-slot>
         <h1>Register Recipe</h1>
         <form action="/recipes" method="POST" enctype="multipart/form-data">

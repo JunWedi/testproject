@@ -6,9 +6,11 @@
         <title>Edit Recipe</title>
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <x-app-layout>
     <x-slot name="header">
+        @include('layouts.header')
     </x-slot>
     
     <body>
