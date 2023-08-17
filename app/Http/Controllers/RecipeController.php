@@ -165,6 +165,9 @@ class RecipeController extends Controller
    //レシピとカテゴリーの保存
    public function store(RecipeRequest $request, Recipe $recipe)
    {
+
+    Log::info('Received request data:', $request->all());
+    
         //レシピデータの取得
         $input_recipe = $request['recipe'];
 

@@ -5,6 +5,14 @@
             <img src="{{ asset('images/logo4.png') }}" alt="Logo" class="w-35 h-20 ">
         </x-nav-link>
     </a>
+    <nav class="navbar navbar-light bg-light">
+       <div class="container-fluid">
+       <form class="d-flex">
+       <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+       <button class="btn btn-outline-success" type="submit">Search</button>
+       </form>
+       </div>
+    </nav>
     <x-nav-link :href="route('recipes.create')" :active="request()->routeIs('recipes.create')">
         <button class="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">レシピを作る
             <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-1" viewBox="0 0 24 24">
