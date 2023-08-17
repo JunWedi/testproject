@@ -16,8 +16,9 @@
     <body>
     <div class="flex justify-center items-center min-h-screen">
         <div class="bg-yellow-400 p-4 rounded-lg shadow-lg">
-        
-    
+        <form action="/recipes" method="POST" enctype="multipart/form-data">
+        @csrf
+
     <!-- Tabs navigation -->
     <ul class="nav nav-tabs" id="recipeTabs" role="tablist">
         <li class="nav-item" role="presentation">
@@ -33,8 +34,6 @@
 
 <div class="tab-content" id="recipeTabsContent">
     <div class="tab-pane fade show active" id="basicInfo" role="tabpanel">
-        <form action="/recipes" method="POST" enctype="multipart/form-data">
-            @csrf
             <div class="block text-sm font-medium text-neutral-600 mt-5">
                 <input type="text" name="recipe[title]" placeholder="料理名" value="{{ old('recipe.title') }}" />
                 <p class="title__error" style="color:red">{{ $errors->first('recipe.body') }}</p>
@@ -97,8 +96,9 @@
              <input type="submit" class="btn btn-info" value="登録"/>
            </div>
 
-            </form>
-        
+            
+           </form>
+
 
     
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
@@ -110,7 +110,7 @@
                 var div = document.createElement('div');
                 div.className = 'ingredient';
                 div.innerHTML = `
-                <input class=" text-sm font-medium text-neutral-600 mt-3" type="text" name="ingredient_names[]" placeholder="材料名">
+                    <input class=" text-sm font-medium text-neutral-600 mt-3" type="text" name="ingredient_names[]" placeholder="材料名">
                     <input class=" text-sm font-medium text-neutral-600 mt-3" type="text" name="ingredient_quantities[]" placeholder="量">
                     <input class=" text-sm font-medium text-neutral-600 mt-3" type="text" name="ingredient_units[]" placeholder="単位">
                     <button class="btn btn-info" type="button" onclick="removeIngredient(this)">削除</button>
@@ -127,10 +127,10 @@
                 var div = document.createElement('div');
                 div.className = 'step';
                 div.innerHTML = `
-                 <input class="block text-sm font-medium text-neutral-600 mt-3" type="number" name="step_numbers[]" placeholder="ステップ番号">
-                 <textarea class="block text-sm font-medium text-neutral-600 mt-3" name="step_descriptions[]" placeholder="作り方"></textarea>
-                 <input class="flex flex-wrap justify-center mb-3 text-base leading-7 text-blueGray-500 mt-3" type="file" name="step_image[]">
-                 <button class="btn btn-info mt-3" type="button" onclick="removeStep(this)">削除</button>
+                    <input class="block text-sm font-medium text-neutral-600 mt-3" type="number" name="step_numbers[]" placeholder="ステップ番号">
+                    <textarea class="block text-sm font-medium text-neutral-600 mt-3" name="step_descriptions[]" placeholder="作り方"></textarea>
+                    <input class="flex flex-wrap justify-center mb-3 text-base leading-7 text-blueGray-500 mt-3" type="file" name="step_image[]">
+                    <button class="btn btn-info mt-3" type="button" onclick="removeStep(this)">削除</button>
                 `;
                 document.getElementById('steps').appendChild(div);
             }
@@ -140,6 +140,7 @@
                 step.parentNode.removeChild(step);
             }
 
+            
         </script>
         </div>
     </div>
