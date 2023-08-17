@@ -1,3 +1,27 @@
 .card {
     height: 400px;
 }
+
+.card-img-top {
+    max-height: 300px; /* この値は必要に応じて変更してください */
+    object-fit: cover;
+}
+
+.clickable-card {
+    cursor: pointer;
+}
+
+.clickable-card:hover {
+    /* ここでホバー時のスタイルを追加できます。例えば、色を少し明るくするなど */
+    background-color: #f5f5f5;
+}
+
+.stretched-link::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    content: "";
+}
