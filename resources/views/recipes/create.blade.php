@@ -110,7 +110,7 @@
                 var div = document.createElement('div');
                 div.className = 'ingredient';
                 div.innerHTML = `
-                    <input class=" text-sm font-medium text-neutral-600 mt-3" type="text" name="ingredient_names[]" placeholder="材料名">
+                <input class=" text-sm font-medium text-neutral-600 mt-3" type="text" name="ingredient_names[]" placeholder="材料名">
                     <input class=" text-sm font-medium text-neutral-600 mt-3" type="text" name="ingredient_quantities[]" placeholder="量">
                     <input class=" text-sm font-medium text-neutral-600 mt-3" type="text" name="ingredient_units[]" placeholder="単位">
                     <button class="btn btn-info" type="button" onclick="removeIngredient(this)">削除</button>
@@ -127,10 +127,10 @@
                 var div = document.createElement('div');
                 div.className = 'step';
                 div.innerHTML = `
-                    <input class="block text-sm font-medium text-neutral-600 mt-3" type="number" name="step_numbers[]" placeholder="ステップ番号">
-                    <textarea class="block text-sm font-medium text-neutral-600 mt-3" name="step_descriptions[]" placeholder="ステップの説明"></textarea>
-                    <input class="flex flex-wrap justify-center mb-3 text-base leading-7 text-blueGray-500 mt-3" type="file" name="step_image[]">
-                    <button class="btn btn-info mt-3" type="button" onclick="removeStep(this)">削除</button>
+                 <input class="block text-sm font-medium text-neutral-600 mt-3" type="number" name="step_numbers[]" placeholder="ステップ番号">
+                 <textarea class="block text-sm font-medium text-neutral-600 mt-3" name="step_descriptions[]" placeholder="作り方"></textarea>
+                 <input class="flex flex-wrap justify-center mb-3 text-base leading-7 text-blueGray-500 mt-3" type="file" name="step_image[]">
+                 <button class="btn btn-info mt-3" type="button" onclick="removeStep(this)">削除</button>
                 `;
                 document.getElementById('steps').appendChild(div);
             }
