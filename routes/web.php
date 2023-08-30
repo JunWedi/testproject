@@ -3,7 +3,8 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RecipeController;
-
+use App\Http\Controllers\CategoryController;
+use App\Models\Category;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +30,10 @@ Route::controller(RecipeController::class)->middleware(['auth'])->group(function
     Route::delete('/recipes/{recipe}',[RecipeController::class,'destroy'])->name('recipes.destroy');
     Route::get('/recipes/{recipe}/edit', [RecipeController::class, 'edit'])->name('recipes.edit');
     Route::put('/recipes/{recipe}', [RecipeController::class, 'update'])->name('recipes.update');
+});
+
+Route::controller(CategoryController::class)->middleware(['auth'])->group(function(){
+    Route::get('/categories/{category}',[CategoryController::class,'index']);
 });
 
 Route::middleware('auth')->group(function () {
