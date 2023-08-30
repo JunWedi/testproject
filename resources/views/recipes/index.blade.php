@@ -39,7 +39,7 @@
                                         <p class="card-text">{{ $recipe->body }}</p>
                                         <h7 class="card-subtitle mb-2 text-muted categories">
                                             @foreach($recipe->tags as $tag)
-                                            {{ $tag->name }}
+                                            #{{ $tag->name }}
                                             @endforeach
                                         </h7>
                                     </div>
