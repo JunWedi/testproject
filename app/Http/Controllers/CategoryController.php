@@ -9,7 +9,8 @@ class CategoryController extends Controller
 {
     public function index(Category $category)
     {
-        return view('categories.index')->with(['recipes' => $category->getByCategory()]);
+        $categories = Category::all();
+        return view('categories.index')->with(['recipes' => $category->getByCategory(), 'categories' => $categories]);
     }
 }
 

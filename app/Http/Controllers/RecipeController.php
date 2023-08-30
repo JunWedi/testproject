@@ -17,14 +17,18 @@ class RecipeController extends Controller
     //レシピの一覧表示
     public function index(Recipe $recipe)
     {
-        return view('recipes.index')->with(['recipes' => $recipe->get()]);
+        $categories = Category::all();
+        return view('recipes.index')->with(['recipes' => $recipe->get(), 'categories' => $categories]);
     }
+
 
     //レシピの詳細表示
     public function show(Recipe $recipe)
     {
-        $recipe = $recipe->load(['ingredients']); //材料の表示
-        return view('recipes.show')->with(['recipe' => $recipe]);
+        $categories = Category::all();
+        
+        $recipe = $recipe->load(['ingredients']);
+        return view('recipes.show')->with(['recipe' => $recipe, 'categories' => $categories]);
     }
 
     //レシピの編集
@@ -239,7 +243,37 @@ class RecipeController extends Controller
     {
         $user = auth()->user();
         $recipes = $user->recipes;
+        $categories = Category::all();
 
-        return view('user.index', compact('recipes'));
+        return view('user.index', compact('recipes','categories'));
+    }
+
+    public function search(Request $request)
+    {
+        $query = Recipe::query();
+
+        // 料理名の曖昧検索
+        if ($request->filled('name')) { // filledメソッドを使用して簡略化
+            $query->where('title', 'LIKE', '%' . $request->name . '%');
+        }
+
+        // タグでの検索
+        if ($request->filled('tag')) { // filledメソッドを使用して簡略化
+            $query->whereHas('tags', function ($query) use ($request) {
+                $query->where('name', 'LIKE', '%' . $request->tag . '%');
+            });
+        }
+
+        // カテゴリーでの検索
+        if ($request->filled('category_id')) { // filledメソッドを使用して簡略化
+            $query->whereHas('categories', function ($query) use ($request) {
+                $query->where('categories.id', $request->category_id);
+            });
+        }
+
+        $recipes = $query->orderBy('updated_at', 'DESC')->paginate(10);
+        $categories = Category::all();
+
+        return view('recipes.index', compact('recipes', 'categories'));
     }
 }

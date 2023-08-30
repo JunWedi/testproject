@@ -27,6 +27,7 @@ Route::controller(RecipeController::class)->middleware(['auth'])->group(function
     Route::get('/', [RecipeController::class, 'index'])->name('index');
     Route::get('/recipes', [RecipeController::class, 'index'])->name('recipes.index');
     Route::get('/recipes/create', [RecipeController::class, 'create'])->name('recipes.create');
+    Route::get('/recipes/search', [RecipeController::class, 'search'])->name('recipes.search');
     Route::get('/recipes/{recipe}', [RecipeController::class ,'show'])->name('recipes.show');
     Route::post('/recipes', [RecipeController::class, 'store'])->name('recipes.store');
     Route::delete('/recipes/{recipe}',[RecipeController::class,'destroy'])->name('recipes.destroy');
