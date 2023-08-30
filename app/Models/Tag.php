@@ -18,4 +18,9 @@ class Tag extends Model
     {
         return $this->belongsToMany(Recipe::class);
     }
+
+    public function getByTag()
+    {
+        return $this->recipes()->with('tags')->orderBy('updated_at', 'DESC')->get();
+    }
 }

@@ -13,14 +13,14 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
-        //
-    ];
+        'App\Models\Recipe' => 'App\Policies\RecipePolicy',
+    ];    
 
     /**
      * Register any authentication / authorization services.
      */
     public function boot(): void
     {
-        //
+        $this->registerPolicies();
     }
 }

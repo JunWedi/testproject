@@ -4,7 +4,9 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\TagController;
 use App\Models\Category;
+use App\Models\Tag;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,10 +32,15 @@ Route::controller(RecipeController::class)->middleware(['auth'])->group(function
     Route::delete('/recipes/{recipe}',[RecipeController::class,'destroy'])->name('recipes.destroy');
     Route::get('/recipes/{recipe}/edit', [RecipeController::class, 'edit'])->name('recipes.edit');
     Route::put('/recipes/{recipe}', [RecipeController::class, 'update'])->name('recipes.update');
+    Route::get('/my-recipes', [RecipeController::class, 'myRecipes'])->name('my.recipes');
 });
 
 Route::controller(CategoryController::class)->middleware(['auth'])->group(function(){
     Route::get('/categories/{category}',[CategoryController::class,'index']);
+});
+
+Route::controller(TagController::class)->middleware(['auth'])->group(function(){
+    Route::get('/tags/{tag}',[TagController::class,'index']);
 });
 
 Route::middleware('auth')->group(function () {
