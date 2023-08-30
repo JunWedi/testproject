@@ -3,9 +3,11 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <div class="flex">
+            <x-nav-link :href="route('index')" :active="request()->routeIs('index')">
                 <div class="font-bold text-4xl font-serif m-3">
                  show your favorite AsianFoods
                 </div>
+                </x-nav-link>
             </div>
 
             <!-- Settings Dropdown -->

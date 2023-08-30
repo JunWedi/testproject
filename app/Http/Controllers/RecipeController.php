@@ -17,7 +17,7 @@ class RecipeController extends Controller
     //レシピの一覧表示
     public function index(Recipe $recipe)
     {
-        return view('recipes.index')->with(['recipes' => $recipe->get()]);  
+        return view('recipes.index')->with(['recipes' => $recipe->get()]);
     }
 
     //レシピの詳細表示
@@ -30,7 +30,9 @@ class RecipeController extends Controller
     //レシピの編集
     public function edit(Recipe $recipe)
     {
-        $categories = Category::all(); 
+        $this->authorize('update', $recipe);
+
+        $categories = Category::all();
 
         foreach ($recipe->ingredients as $ingredient) {
             $parts = explode(' ', $ingredient->name);
@@ -45,14 +47,14 @@ class RecipeController extends Controller
     public function update(RecipeRequest $request, Recipe $recipe)
     {
 
-        Log::info('Received request data:', $request->all());
+        $this->authorize('update', $recipe);
 
         // レシピ本体の更新
         $recipeData = $request->input('recipe');
         $recipe->fill($recipeData);
 
         // レシピ画像の更新
-        if($request->hasFile('recipe_image')) {
+        if ($request->hasFile('recipe_image')) {
             $recipeImage = $request->file('recipe_image');
             $recipeImageSaveAsName = time() . "-" . $recipeImage->getClientOriginalName();
             $upload_path = 'recipe_images/';
@@ -62,15 +64,15 @@ class RecipeController extends Controller
 
         $recipe->save();
 
-    // ステップの更新
-    $stepData = $request->input('step', []);
+        // ステップの更新
+        $stepData = $request->input('step', []);
 
-    foreach ($stepData as $index => $data) {
-        if (isset($data['id'])) {
-            // 既存のステップの更新
-            $step = Step::find($data['id']);
-            if ($step) {
-                $step->fill($data);
+        foreach ($stepData as $index => $data) {
+            if (isset($data['id'])) {
+                // 既存のステップの更新
+                $step = Step::find($data['id']);
+                if ($step) {
+                    $step->fill($data);
                     // 画像のアップロード条件を追加
                     if ($request->hasFile('step.' . $index . '.image')) {
                         $stepImage = $request->file('step.' . $index . '.image');
@@ -78,11 +80,11 @@ class RecipeController extends Controller
                         $step_image_path = $stepImage->storeAs('public/step_images', $stepImageSaveAsName);
                         $step->image_path = asset(str_replace('public', 'storage', $step_image_path));
                     }
-                        $step->save();
-            }
-        } else {
-            // 新規のステップの追加
-            $newStep = $recipe->steps()->create($data);
+                    $step->save();
+                }
+            } else {
+                // 新規のステップの追加
+                $newStep = $recipe->steps()->create($data);
                 // 画像のアップロード条件を追加
                 if ($request->hasFile('step.' . $index . '.image')) {
                     $stepImage = $request->file('step.' . $index . '.image');
@@ -90,61 +92,61 @@ class RecipeController extends Controller
                     $step_image_path = $stepImage->storeAs('public/step_images', $stepImageSaveAsName);
                     $newStep->image_path = asset(str_replace('public', 'storage', $step_image_path));
                 }
-            $newStep->save();
-        }
-    }
-    
-
-    // ステップの削除
-    $deleteStepIds = $request->input('delete_steps', []);
-    Step::destroy($deleteStepIds);
-
-    // 材料の取得
-    $ingredientIds = $request->input('ingredient_ids', []);
-    $ingredientNames = $request->input('ingredient_names', []);
-    $ingredientQuantities = $request->input('ingredient_quantities', []);
-    $ingredientUnits = $request->input('ingredient_units', []);
-
-    $existingIngredientIds = $recipe->ingredients->pluck('id')->toArray();
-
-    foreach ($ingredientNames as $index => $name) {
-        $quantity = $ingredientQuantities[$index] ?? null;
-        $unit = $ingredientUnits[$index] ?? null;
-
-    // ここで材料名、量、単位を一つの文字列に結合
-    $formattedIngredient = $name;
-        if ($quantity && $unit) {
-            $formattedIngredient .= ' ' . $quantity . ' ' . $unit;
-        } elseif ($quantity) {
-            $formattedIngredient .= ' ' . $quantity;
+                $newStep->save();
+            }
         }
 
-    // idがある場合は更新し、無い場合は新規作成
-    if (isset($ingredientIds[$index]) && in_array($ingredientIds[$index], $existingIngredientIds)) {
-        $ingredient = Ingredient::find($ingredientIds[$index]);
-            if ($ingredient) {
-                $ingredient->update(['name' => $formattedIngredient]);
 
-    // 既存のIDからこのIDを削除
-    $key = array_search($ingredientIds[$index], $existingIngredientIds);
-        if ($key !== false) {
-            unset($existingIngredientIds[$key]);
+        // ステップの削除
+        $deleteStepIds = $request->input('delete_steps', []);
+        Step::destroy($deleteStepIds);
+
+        // 材料の取得
+        $ingredientIds = $request->input('ingredient_ids', []);
+        $ingredientNames = $request->input('ingredient_names', []);
+        $ingredientQuantities = $request->input('ingredient_quantities', []);
+        $ingredientUnits = $request->input('ingredient_units', []);
+
+        $existingIngredientIds = $recipe->ingredients->pluck('id')->toArray();
+
+        foreach ($ingredientNames as $index => $name) {
+            $quantity = $ingredientQuantities[$index] ?? null;
+            $unit = $ingredientUnits[$index] ?? null;
+
+            // ここで材料名、量、単位を一つの文字列に結合
+            $formattedIngredient = $name;
+            if ($quantity && $unit) {
+                $formattedIngredient .= ' ' . $quantity . ' ' . $unit;
+            } elseif ($quantity) {
+                $formattedIngredient .= ' ' . $quantity;
+            }
+
+            // idがある場合は更新し、無い場合は新規作成
+            if (isset($ingredientIds[$index]) && in_array($ingredientIds[$index], $existingIngredientIds)) {
+                $ingredient = Ingredient::find($ingredientIds[$index]);
+                if ($ingredient) {
+                    $ingredient->update(['name' => $formattedIngredient]);
+
+                    // 既存のIDからこのIDを削除
+                    $key = array_search($ingredientIds[$index], $existingIngredientIds);
+                    if ($key !== false) {
+                        unset($existingIngredientIds[$key]);
+                    }
+                }
+            } else {
+                $recipe->ingredients()->create(['name' => $formattedIngredient]);
+            }
         }
-        }
-    } else {
-        $recipe->ingredients()->create(['name' => $formattedIngredient]);
-    }
-}
 
-    // この時点で$existingIngredientIdsには、編集画面には表示されていない材料のIDのみが残っています。
-    // これを使って、不要な材料を削除します。
-    Ingredient::destroy($existingIngredientIds);
+        // この時点で$existingIngredientIdsには、編集画面には表示されていない材料のIDのみが残っています。
+        // これを使って、不要な材料を削除します。
+        Ingredient::destroy($existingIngredientIds);
 
-    // カテゴリーの更新
-    $categoryData = $request->input('category_id');
-    $recipe->categories()->sync($categoryData);
+        // カテゴリーの更新
+        $categoryData = $request->input('category_id');
+        $recipe->categories()->sync($categoryData);
 
-    // タグの更新も同様に
+        // タグの更新も同様に
 
         return redirect()->route('recipes.show', ['recipe' => $recipe]);
     }
@@ -161,17 +163,17 @@ class RecipeController extends Controller
 
         return redirect('/recipes');
     }
-   
-   //レシピとカテゴリーの保存
-   public function store(RecipeRequest $request, Recipe $recipe)
-   {
 
-    Log::info('Received request data:', $request->all());
-    
+    //レシピとカテゴリーの保存
+    public function store(RecipeRequest $request, Recipe $recipe)
+    {
+
+        Log::info('Received request data:', $request->all());
+
         //レシピデータの取得
         $input_recipe = $request['recipe'];
 
-        if($request->hasFile('recipe_image')) {
+        if ($request->hasFile('recipe_image')) {
             $recipeImage = $request->file('recipe_image');
             $recipeImageSaveAsName = time() . "-" . $recipeImage->getClientOriginalName();
             $upload_path = 'recipe_images/';
@@ -183,17 +185,17 @@ class RecipeController extends Controller
         $recipe->fill($input_recipe)->save();
         $recipe->user_id = auth()->id();
         $recipe->save();
-        $recipe->categories()->attach($request->category_id); 
+        $recipe->categories()->attach($request->category_id);
 
         //レシピとタグのリレーション
         $tags = array_map('trim', explode('#', $request->tag_id));
         foreach ($tags as $tag) {
-            if(!empty($tag)){
-            $tagModel = Tag::firstOrCreate(['name' => $tag]);
-            $recipe->tags()->attach($tagModel->id);
+            if (!empty($tag)) {
+                $tagModel = Tag::firstOrCreate(['name' => $tag]);
+                $recipe->tags()->attach($tagModel->id);
             }
         }
-        
+
         //材料
         $ingredient_names = $request->input('ingredient_names');
         $ingredient_quantities = $request->input('ingredient_quantities');
@@ -218,19 +220,26 @@ class RecipeController extends Controller
             $step->step_number = $step_numbers[$i];
             $step->description = $step_descriptions[$i];
 
-        // ステップ画像がアップロードされた場合、画像を保存します。
-        if($step_images !== null && isset($step_images[$i])) {
-            $stepImage = $step_images[$i];
-            $stepImageSaveAsName = time() . "-" . $stepImage->getClientOriginalName();
-            $upload_path = 'step_images/';
-            $step_image_path = $stepImage->storeAs('public/step_images', $stepImageSaveAsName);
-            $step->image_path = asset(str_replace('public', 'storage', $step_image_path));
+            // ステップ画像がアップロードされた場合、画像を保存します。
+            if ($step_images !== null && isset($step_images[$i])) {
+                $stepImage = $step_images[$i];
+                $stepImageSaveAsName = time() . "-" . $stepImage->getClientOriginalName();
+                $upload_path = 'step_images/';
+                $step_image_path = $stepImage->storeAs('public/step_images', $stepImageSaveAsName);
+                $step->image_path = asset(str_replace('public', 'storage', $step_image_path));
+            }
+
+            $step->save();
         }
 
-        $step->save();
+        return redirect('/recipes');
     }
 
-    return redirect('/recipes');
-    }
+    public function myRecipes()
+    {
+        $user = auth()->user();
+        $recipes = $user->recipes;
 
+        return view('user.index', compact('recipes'));
+    }
 }

@@ -25,10 +25,10 @@
                     <img src="{{ asset($recipe->image_path) }}" class="w-full rounded-md shadow-lg" alt="Recipe Image">
                 </div>
                 <div class="w-full lg:w-1/2 px-3 mt-6 lg:mt-0">
-                    <h3 class="text-2xl font-semibold mb-4">国名</h3>
+                    <h3 class="text-2xl font-semibold mb-4">カテゴリー</h3>
                     <ul>
                         @foreach($recipe->categories as $category)
-                        <li class="mb-2">
+                        <li class="mb-2 text-blue-500">
                             <a href="/categories/{{ $category->id }}">{{ $category->name }}</a>
                         </li>
                         @endforeach
@@ -56,13 +56,17 @@
                         <h3 class="text-2xl font-semibold mb-4">タグ</h3>
                         <ul>
                             @foreach($recipe->tags as $tag)
-                            <li class="mb-2">{{ $tag->name }}</li>
+                            <li class="mb-2 text-blue-500">
+                            <a href="/tags/{{ $tag->id }}">#{{ $tag->name }}</a>
+                            </li>
                             @endforeach
                         </ul>
                 </div>
             </div>
             <div class="mt-8 flex space-x-4">
-                <a href="/recipes/{{ $recipe->id }}/edit" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-md">編集</a>
+                @can('update', $recipe)
+                <a href="{{ route('recipes.edit', $recipe) }}" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-md">編集</a>
+                @endcan
                 <a href="/" class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded-md">戻る</a>
             </div>
         </div>
