@@ -28,7 +28,9 @@
                     <h3 class="text-2xl font-semibold mb-4">国名</h3>
                     <ul>
                         @foreach($recipe->categories as $category)
-                        <li class="mb-2">{{ $category->name }}</li>
+                        <li class="mb-2">
+                            <a href="/categories/{{ $category->id }}">{{ $category->name }}</a>
+                        </li>
                         @endforeach
                         <h3 class="text-2xl font-semibold mb-4">材料</h3>
                         <ul>

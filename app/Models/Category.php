@@ -13,9 +13,13 @@ class Category extends Model
     protected $guarded = ['id'];
 
     //レシピへの多対多のリレーション
-    public function recipes():BelongsToMany
+    public function recipes(): BelongsToMany
     {
         return $this->belongsToMany(Recipe::class);
     }
 
+    public function getByCategory()
+    {
+        return $this->recipes()->with('categories')->orderBy('updated_at', 'DESC')->get();
+    }
 }

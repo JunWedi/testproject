@@ -56,7 +56,7 @@
                         <div class="tab-pane fade" id="stepsInfo" role="tabpanel">
                             <div id="steps">
                                 <div class="step mt-5">
-                                    <input class="block text-sm font-medium text-neutral-600 mt-3" type="number" name="step_numbers[]" placeholder="ステップ番号">
+                                    <input class="block text-sm font-medium text-neutral-600 mt-3" type="number" name="step_numbers[]" placeholder="ステップ番号" value="1" readonly>
                                     <textarea class="block text-sm font-medium text-neutral-600 mt-3" name="step_descriptions[]" placeholder="作り方"></textarea>
                                     <input class="flex flex-wrap justify-center mb-3 text-base leading-7 text-blueGray-500 mt-3" type="file" name="step_image[]">
                                     <button class="btn btn-info mt-3" type="button" onclick="removeStep(this)">削除</button>
@@ -127,18 +127,32 @@
                     function addStep() {
                         var div = document.createElement('div');
                         div.className = 'step';
+
+                        // 現在のステップの数を取得して、新しいステップ番号を計算
+                        var currentSteps = document.querySelectorAll('.step').length;
+                        var newStepNumber = currentSteps + 1;
+
                         div.innerHTML = `
-                    <input class="block text-sm font-medium text-neutral-600 mt-3" type="number" name="step_numbers[]" placeholder="ステップ番号">
-                    <textarea class="block text-sm font-medium text-neutral-600 mt-3" name="step_descriptions[]" placeholder="作り方"></textarea>
-                    <input class="flex flex-wrap justify-center mb-3 text-base leading-7 text-blueGray-500 mt-3" type="file" name="step_image[]">
-                    <button class="btn btn-info mt-3" type="button" onclick="removeStep(this)">削除</button>
-                `;
+        <input class="block text-sm font-medium text-neutral-600 mt-3" type="number" name="step_numbers[]" placeholder="ステップ番号" value="${newStepNumber}" readonly>
+        <textarea class="block text-sm font-medium text-neutral-600 mt-3" name="step_descriptions[]" placeholder="作り方"></textarea>
+        <input class="flex flex-wrap justify-center mb-3 text-base leading-7 text-blueGray-500 mt-3" type="file" name="step_image[]">
+        <button class="btn btn-info mt-3" type="button" onclick="removeStep(this)">削除</button>
+    `;
                         document.getElementById('steps').appendChild(div);
                     }
 
                     function removeStep(button) {
                         var step = button.parentNode;
                         step.parentNode.removeChild(step);
+                        reorderSteps();
+                    }
+
+
+                    function reorderSteps() {
+                        var stepInputs = document.querySelectorAll('input[name="step_numbers[]"]');
+                        for (var i = 0; i < stepInputs.length; i++) {
+                            stepInputs[i].value = i + 1;
+                        }
                     }
                 </script>
             </div>
