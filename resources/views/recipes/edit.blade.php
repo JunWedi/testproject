@@ -40,19 +40,19 @@
 
             <div class="tab-content" id="recipeTabsContent">
                 <div class="tab-pane fade show active" id="basicInfo" role="tabpanel">
-                    <div class="mb-4">
+                    <div class="block text-sm font-medium text-neutral-600 mt-5">
                         <label for="recipe_title" class="block text-bold mb-2">料理名</label>
                         <input type="text" id="recipe_title" name="recipe[title]" value="{{ $recipe->title }}" placeholder="料理名" class="form-control" />
                     </div>
 
                     <!-- 本文 -->
-                    <div class="body">
+                    <div class="block text-sm font-medium text-neutral-600 mt-5">
                         <h2>紹介文</h2>
                         <textarea name="recipe[body]" placeholder="紹介文">{{ $recipe->body }}</textarea>
                     </div>
 
                     <!-- レシピ画像 -->
-                    <div class="recipe_image">
+                    <div class="recipe_image mt-5">
                         <h2>レシピ写真</h2>
                         <img src="{{ asset($recipe->image_path) }}" class="img-fluid rounded recipe-image" alt="Recipe Image">
                         <input type="file" name="recipe_image">
@@ -62,16 +62,16 @@
 
                 <div class="tab-pane fade" id="stepsInfo" role="tabpanel">
                     <!-- ステップの編集 -->
-                    <div id="steps">
+                    <div class="mt-5" id="steps">
                         <h2>作り方</h2>
                         @foreach($recipe->steps as $index => $step)
                         <div class="step">
                             <input type="hidden" name="step[{{ $index }}][id]" value="{{ $step->id }}">
-                            <input type="number" name="step[{{ $index }}][step_number]" value="{{ $step->step_number }}" placeholder="ステップ番号">
-                            <textarea name="step[{{ $index }}][description]" placeholder="作り方">{{ $step->description }}</textarea>
-                            <input type="file" name="step[{{ $index }}][image]">
+                            <input class="block text-sm font-medium text-neutral-600 mt-3" type="number" name="step[{{ $index }}][step_number]" value="{{ $step->step_number }}" placeholder="ステップ番号">
+                            <textarea class="block text-sm font-medium text-neutral-600 mt-3" name="step[{{ $index }}][description]" placeholder="作り方">{{ $step->description }}</textarea>
+                            <input class="block text-sm font-medium text-neutral-600 mt-3" type="file" name="step[{{ $index }}][image]">
                             <img src="{{ $step->image_path }}" class="img-fluid rounded step-image" alt="step image">
-                            <button type="button" onclick="removeStep(this, {{ $step->id }})">削除</button>
+                            <button class="btn btn-info mt-3" type="button" onclick="removeStep(this, {{ $step->id }})">削除</button>
                         </div>
                         @endforeach
                     </div>
@@ -79,28 +79,28 @@
                     <!-- 削除されたステップのIDを保存するフィールド -->
                     <input type="hidden" name="delete_steps" id="delete_steps" value="">
 
-                    <button type="button" onclick="addStep()">ステップを追加</button>
+                    <button class="btn btn-info mt-3" type="button" onclick="addStep()">ステップを追加</button>
                     <!-- 材料の編集 -->
-                    <div id="ingredients">
-                        <h2>Ingredients</h2>
+                    <div class="mt-5" id="ingredients">
+                        <h2>材料</h2>
                         @foreach($recipe->ingredients as $ingredient)
                         <div class="ingredient">
-                            <input type="text" name="ingredient_names[]" value="{{ $ingredient->name }}" placeholder="材料名">
-                            <input type="text" name="ingredient_quantities[]" value="{{ $ingredient->quantity }}" placeholder="量">
-                            <input type="text" name="ingredient_units[]" value="{{ $ingredient->unit }}" placeholder="単位">
-                            <button type="button" onclick="removeIngredient(this)">削除</button>
+                            <input class="text-sm font-medium text-neutral-600 mt-3" type="text" name="ingredient_names[]" value="{{ $ingredient->name }}" placeholder="材料名">
+                            <input class="text-sm font-medium text-neutral-600 mt-3" type="text" name="ingredient_quantities[]" value="{{ $ingredient->quantity }}" placeholder="量">
+                            <input class="text-sm font-medium text-neutral-600 mt-3" type="text" name="ingredient_units[]" value="{{ $ingredient->unit }}" placeholder="単位">
+                            <button class="btn btn-info" type="button" onclick="removeIngredient(this)">削除</button>
                         </div>
                         @endforeach
                     </div>
 
-                    <button type="button" onclick="addIngredient()">材料を追加</button>
+                    <button class="btn btn-info mt-3" type="button" onclick="addIngredient()">材料を追加</button>
 
                 </div>
 
                 <div class="tab-pane fade" id="tagsInfo" role="tabpanel">
                     <!-- カテゴリーの編集 -->
-                    <div class="category">
-                        <h2>Category</h2>
+                    <div class="category mt-5">
+                        <h2>カテゴリー</h2>
                         <select name="category_id">
                             @foreach($categories as $category)
                             <option value="{{ $category->id }}" @if($category->id == $recipe->category_id) selected @endif>
@@ -111,7 +111,7 @@
                     </div>
 
                     <!-- タグの編集 -->
-                    <h2>Tag</h2>
+                    <h2 class="mt-5">タグ</h2>
                     <div class="tag">
                         <textarea name="tag_id" placeholder="#ちょい辛い#一度は食べたいetc">{{ $recipe->tag_id }}</textarea>
                     </div>
@@ -148,10 +148,10 @@
                 var div = document.createElement('div');
                 div.className = 'ingredient';
                 div.innerHTML = `
-                            <input type="text" name="ingredient_names[]" placeholder="材料名">
-                            <input type="text" name="ingredient_quantities[]" placeholder="量">
-                            <input type="text" name="ingredient_units[]" placeholder="単位">
-                            <button type="button" onclick="removeIngredient(this)">削除</button>
+                            <input class="text-sm font-medium text-neutral-600 mt-3" type="text" name="ingredient_names[]" placeholder="材料名">
+                            <input class="text-sm font-medium text-neutral-600 mt-3" type="text" name="ingredient_quantities[]" placeholder="量">
+                            <input class="text-sm font-medium text-neutral-600 mt-3" type="text" name="ingredient_units[]" placeholder="単位">
+                            <button class="btn btn-info" type="button" onclick="removeIngredient(this)">削除</button>
                         `;
                 document.getElementById('ingredients').appendChild(div);
             }
@@ -166,11 +166,11 @@
                 div.className = 'step';
                 div.innerHTML = `
                             <input type="hidden" name="step[${stepCounter}][id]">
-                            <input type="number" name="step[${stepCounter}][step_number]" value="${++maxStepNumber}" placeholder="ステップ番号">
-                            <textarea name="step[${stepCounter}][description]" placeholder="ステップの説明"></textarea>
-                            <input type="file" name="step[${stepCounter}][image]">
+                            <input class="block text-sm font-medium text-neutral-600 mt-3" type="number" name="step[${stepCounter}][step_number]" value="${++maxStepNumber}" placeholder="ステップ番号">
+                            <textarea class="block text-sm font-medium text-neutral-600 mt-3" name="step[${stepCounter}][description]" placeholder="ステップの説明"></textarea>
+                            <input class="block text-sm font-medium text-neutral-600 mt-3" type="file" name="step[${stepCounter}][image]">
                             <img src="" class="img-fluid rounded step-image" alt="step image">
-                            <button type="button" onclick="removeStep(this)">削除</button>
+                            <button class="btn btn-info mt-3" type="button" onclick="removeStep(this)">削除</button>
                         `;
                 document.getElementById('steps').appendChild(div);
                 stepCounter++;
