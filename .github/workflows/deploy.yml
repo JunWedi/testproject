@@ -15,7 +15,9 @@ jobs:
 
     - name: Add Lightsail to SSH known hosts
       run: |
-        echo "35.74.156.53 $(ssh-keyscan 35.74.156.53 2>/dev/null)" >> ~/.ssh/known_hosts
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          echo "35.74.156.53 $(ssh-keyscan 35.74.156.53 2>/dev/null)" >> ~/.ssh/known_hosts
 
     - name: Deploy to Lightsail
       env:
