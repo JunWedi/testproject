@@ -21,10 +21,11 @@ jobs:
 
     - name: Deploy to Lightsail
       env:
-        PRIVATE_KEY: ${{ secrets.LIGHTSAIL_SSH_PRIVATE_KEY }}
+          PRIVATE_KEY: ${{ secrets.LIGHTSAIL_SSH_PRIVATE_KEY }}
       run: |
         echo "$PRIVATE_KEY" > private_key.pem
         chmod 600 private_key.pem
-        scp -i private_key.pem -r ./ bitnami@35.74.156.53:/path/to/your/project
+        scp -i private_key.pem -r * bitnami@35.74.156.53:/path/to/your/project
         rm -f private_key.pem
+
 
