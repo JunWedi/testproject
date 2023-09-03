@@ -25,7 +25,7 @@ jobs:
       run: |
         echo "$PRIVATE_KEY" > private_key.pem
         chmod 600 private_key.pem
-        scp -i private_key.pem -r * bitnami@35.74.156.53:/path/to/your/project
+        scp -i private_key.pem -r * bitnami@35.74.156.53:/opt/bitnami/apache/htdocs/recipe-app
         rm -f private_key.pem
 
 
