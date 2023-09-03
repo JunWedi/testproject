@@ -13,6 +13,10 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
+    - name: Add Lightsail to SSH known hosts
+      run: |
+        echo "35.74.156.53 $(ssh-keyscan 35.74.156.53 2>/dev/null)" >> ~/.ssh/known_hosts
+
     - name: Deploy to Lightsail
       env:
         PRIVATE_KEY: ${{ secrets.LIGHTSAIL_SSH_PRIVATE_KEY }}
@@ -21,3 +25,4 @@ jobs:
         chmod 600 private_key.pem
         scp -i private_key.pem -r ./ bitnami@35.74.156.53:/path/to/your/project
         rm -f private_key.pem
+
