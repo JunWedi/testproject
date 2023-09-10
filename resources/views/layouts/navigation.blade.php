@@ -5,7 +5,7 @@
             <div class="flex">
             <x-nav-link :href="route('index')" :active="request()->routeIs('index')">
                 <div class="font-bold text-4xl font-serif m-3">
-                 show your favorite AsianFoods
+                 Home
                 </div>
                 </x-nav-link>
             </div>
