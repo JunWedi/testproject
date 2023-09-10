@@ -37,6 +37,7 @@ class RecipeController extends Controller
         $this->authorize('update', $recipe);
 
         $categories = Category::all();
+        $tags = Tag::all();
 
         foreach ($recipe->ingredients as $ingredient) {
             $parts = explode(' ', $ingredient->name);
@@ -45,11 +46,13 @@ class RecipeController extends Controller
             $ingredient->unit = $parts[2] ?? null;
         }
 
-        return view('recipes.edit')->with(['recipe' => $recipe, 'categories' => $categories]);
+        return view('recipes.edit')->with(['recipe' => $recipe, 'categories' => $categories, 'tags' => $tags]);
     }
 
     public function update(RecipeRequest $request, Recipe $recipe)
     {
+        Log::info('Tag IDs: ' . print_r($request->tag_id, true));
+
 
         $this->authorize('update', $recipe);
 
@@ -150,7 +153,19 @@ class RecipeController extends Controller
         $categoryData = $request->input('category_id');
         $recipe->categories()->sync($categoryData);
 
-        // タグの更新も同様に
+        // 既存のタグをすべて削除
+        $recipe->tags()->detach();
+
+       // textareaからのタグを解析
+        $tagNames = explode('#', $request->input('tags'));
+        foreach ($tagNames as $tagName) {
+            if (!empty(trim($tagName))) {
+                // すでに存在するタグかどうかを確認
+                $tag = Tag::firstOrCreate(['name' => trim($tagName)]);
+                $recipe->tags()->attach($tag->id);
+            }
+        }
+
 
         return redirect()->route('recipes.show', ['recipe' => $recipe]);
     }
@@ -171,8 +186,6 @@ class RecipeController extends Controller
     //レシピとカテゴリーの保存
     public function store(RecipeRequest $request, Recipe $recipe)
     {
-
-        Log::info('Received request data:', $request->all());
 
         //レシピデータの取得
         $input_recipe = $request['recipe'];
