@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\TagController;
+use App\Http\Controllers\UserController;
 use App\Models\Category;
 use App\Models\Tag;
 
@@ -34,6 +35,11 @@ Route::controller(RecipeController::class)->middleware(['auth'])->group(function
     Route::get('/recipes/{recipe}/edit', [RecipeController::class, 'edit'])->name('recipes.edit');
     Route::put('/recipes/{recipe}', [RecipeController::class, 'update'])->name('recipes.update');
     Route::get('/my-recipes', [RecipeController::class, 'myRecipes'])->name('my.recipes');
+});
+
+Route::controller(UserController::class)->middleware(['auth'])->group(function(){
+    Route::get('/users', [UserController::class, 'index'])->name('users.index');
+    Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show'); 
 });
 
 Route::controller(CategoryController::class)->middleware(['auth'])->group(function(){
