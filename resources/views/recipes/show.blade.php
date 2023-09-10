@@ -26,6 +26,10 @@
                     <img src="{{ asset($recipe->image_path) }}" class="w-full rounded-md shadow-lg" alt="Recipe Image">
                 </div>
                 <div class="w-full lg:w-1/2 px-3 mt-6 lg:mt-0">
+                    <h3 class="text-2xl font-semibold mb-4">ユーザー</h3>
+                    <p class="mb-2">
+                        <a href="{{ route('users.show', $recipe->user->id) }}" class="text-blue-500">{{ $recipe->user->name }}</a>
+                    </p>
                     <h3 class="text-2xl font-semibold mb-4">カテゴリー</h3>
                     <ul>
                         @foreach($recipe->categories as $category)
@@ -58,7 +62,7 @@
                         <ul>
                             @foreach($recipe->tags as $tag)
                             <li class="mb-2 text-blue-500">
-                            <a href="/tags/{{ $tag->id }}">#{{ $tag->name }}</a>
+                                <a href="/tags/{{ $tag->id }}">#{{ $tag->name }}</a>
                             </li>
                             @endforeach
                         </ul>

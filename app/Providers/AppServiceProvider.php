@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Providers;
+use App\Models\Category;
+
 
 use Illuminate\Support\ServiceProvider;
 
@@ -19,7 +21,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //\URL::forceScheme('https'); 
-        //$this->app['request']->server->set('HTTPS','on');
+        view()->composer('*', function ($view) {
+            $view->with('categories', Category::all());
+        });
     }
 }
