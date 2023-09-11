@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>RECIPES</title>
+    <title>レシピ</title>
     <!-- Fonts -->
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">

@@ -37,7 +37,7 @@
                         <div class="tab-pane fade show active" id="basicInfo" role="tabpanel">
                             <div class="block text-sm font-medium text-neutral-600 mt-5">
                                 <input type="text" name="recipe[title]" placeholder="料理名" value="{{ old('recipe.title') }}" />
-                                <p class="title__error" style="color:red">{{ $errors->first('recipe.body') }}</p>
+                                <p class="title__error" style="color:red">{{ $errors->first('recipe.title') }}</p>
                             </div>
                             <div class="block text-sm font-medium text-neutral-600 mt-5">
                                 <textarea name="recipe[body]" placeholder="紹介文">{{ old('recipe.title') }}</textarea>
@@ -88,6 +88,7 @@
                             </div>
                             <div class="block text-sm font-medium text-neutral-600 mt-5">
                                 <textarea name="tag_id" placeholder="#ちょい辛い#一度は食べたいetc"></textarea>
+                                <p class="tag__error" style="color:red">{{ $errors->first('tag_id') }}</p>
                             </div>
                         </div>
                     </div>
