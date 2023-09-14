@@ -51,8 +51,6 @@ class RecipeController extends Controller
 
     public function update(RecipeRequest $request, Recipe $recipe)
     {
-        Log::info('Tag IDs: ' . print_r($request->tag_id, true));
-
 
         $this->authorize('update', $recipe);
 
